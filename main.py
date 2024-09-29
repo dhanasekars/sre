@@ -6,9 +6,11 @@ from models import Student
 
 app = FastAPI()
 
+
 @app.get("/v1/healthcheck")
 async def healthcheck():
     return {"status": "Healthy!"}
+
 
 @app.get("/v1/students")
 async def get_students(db: AsyncSession = Depends(get_db)):
@@ -24,11 +26,12 @@ async def get_students(db: AsyncSession = Depends(get_db)):
         return students_list
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error retrieving students: {str(e)}")
-
-
+        raise HTTPException(
+            status_code=500, detail=f"Error retrieving students: {str(e)}"
+        )
 
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8000)

@@ -13,10 +13,13 @@ DATABASE_URL = f"mysql+aiomysql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_
 # Create async engine
 engine = create_async_engine(DATABASE_URL, echo=True)
 # Create a session factory for async sessions
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine, class_=AsyncSession)
+SessionLocal = sessionmaker(
+    autocommit=False, autoflush=False, bind=engine, class_=AsyncSession
+)
 
 # Base class for models
 Base = declarative_base()
+
 
 # Dependency to get a database session
 async def get_db():
