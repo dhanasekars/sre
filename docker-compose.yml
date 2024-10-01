@@ -1,0 +1,31 @@
+services:
+  app:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: sre-app
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"  # Expose the FastAPI app on port 8000
+    image: fastapi:latest
+
+  db:
+    image: mariadb:latest
+    restart: always
+    container_name: sre-mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DATABASE_ROOT_USER_PWD}
+      MARIADB_DATABASE: ${DATABASE_NAME}
+      MARIADB_USER: ${DATABASE_USER}
+      MARIADB_PASSWORD: ${DATABASE_PASSWORD}
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: sre-nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - app

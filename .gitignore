@@ -51,5 +51,3 @@ wheels/
 *.egg
 .env
 .DS_Store
-docker-compose.yml
-db/Dockerfile
