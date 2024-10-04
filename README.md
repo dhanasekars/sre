@@ -2,30 +2,31 @@
 
 [Part one - From Local to Production](https://one2n.io/sre-bootcamp/sre-bootcamp-exercises)
 
-### Milestones
-1. Create a simple REST API Webserver - In progress
 
-   - [ ] README.md explaining the purpose
-   - [ ] Maintaining dependencies in requirements.txt
-   - [ ] Makefile to build and run REST API locally
-   - [ ] DB Schema migrations to create the student table
-   - [ ] env to pass db url and other sensitive data
-   - [ ] Postman collections for the APIs
+## Prerequisites
 
-    #### API Expectations
-   - [ ] Support API Versioning
-   - [ ] Proper HTTP Verbs
-   - [ ] Meaningful logs
-   - [x] /healhcheck endpoint
-   - [ ] Unit tests for all endpoints
+The following tools/tech stacks are to be installed 
+
+1. Brew 
+2. Docker
+3. Make
+4. [Alembic](https://alembic.sqlalchemy.org/en/latest/front.html#installation)
 
 
 
 ## Project Structure
+- 
+- API - Contains FastAPI endpoint and all it dependencies in requirements.txt and Docker file 
+- ngnix - acts a reverse proxy and load balancer for FastAPI app.
+- tests - unit and integration tests for all endpoints and functions
+- Look at Makefile for one click local deployment
 
 
-## Later
 
-- [ ] Redis cache
+
+
+
+
+
 
 
