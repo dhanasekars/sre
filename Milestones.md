@@ -1,17 +1,17 @@
 ### Milestones
 1. Create a simple REST API Webserver - In progress
 
-   - [ ] README.md explaining the purpose
-   - [ ] Maintaining dependencies in requirements.txt
+   - [x] README.md explaining the purpose
+   - [x] Maintaining dependencies in requirements.txt
    - [ ] Makefile to build and run REST API locally
-   - [ ] DB Schema migrations to create the student table
-   - [ ] env to pass db url and other sensitive data
+   - [x] DB Schema migrations to create the student table
+   - [x] env to pass db url and other sensitive data
    - [ ] Postman collections for the APIs
 
     #### API Expectations
-   - [ ] Support API Versioning
-   - [ ] Proper HTTP Verbs
-   - [ ] Meaningful logs
+   - [x] Support API Versioning
+   - [x] Proper HTTP Verbs
+   - [x] Meaningful logs
    - [x] /healhcheck endpoint
    - [ ] Unit tests for all endpoints
 

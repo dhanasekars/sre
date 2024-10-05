@@ -7,12 +7,11 @@
 
 The following tools/tech stacks are to be installed 
 
-1. Brew 
+1. Brew / apt
 2. Docker
 3. Make
 4. [Alembic](https://alembic.sqlalchemy.org/en/latest/front.html#installation)
-
-
+5. Python 
 
 ## Project Structure
 - 

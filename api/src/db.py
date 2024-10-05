@@ -13,10 +13,15 @@ logger = logging.getLogger(__name__)
 load_dotenv()
 DATABASE_USER = os.getenv("DATABASE_USER")
 DATABASE_PASSWORD = os.getenv("DATABASE_PASSWORD")
-DATABASE_HOST = os.getenv("DATABASE_HOST")
+DATABASE_HOST = os.getenv("DATABASE_HOST", "localhost")
 DATABASE_NAME = os.getenv("DATABASE_NAME")
-DATABASE_URL = f"mysql+aiomysql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}/{DATABASE_NAME}?unix_socket=/tmp/mysql.sock"
-# DATABASE_URL = f"mysql+aiomysql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}/{DATABASE_NAME}"
+ENVIRONMENT = os.getenv('ENVIRONMENT')
+
+DATABASE_URL = (
+    f"mysql+aiomysql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}/{DATABASE_NAME}"
+    + ("?unix_socket=/tmp/mysql.sock" if ENVIRONMENT == 'local' else "")
+)
+print(DATABASE_URL)
 
 # Create async engine
 engine = create_async_engine(DATABASE_URL, echo=True)
