@@ -6,7 +6,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../api/src')))
-from db import Base
+from src.db import Base
 
 # Load environment variables from .env
 load_dotenv()

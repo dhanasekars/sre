@@ -4,7 +4,7 @@ from sqlalchemy import update
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Query
 from typing import List
-from .db import get_db,check_and_create_tables
+from .db import get_db
 from .models import Student
 from .schemas import StudentCreate, StudentResponse, StudentUpdate
 
