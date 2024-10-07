@@ -11,10 +11,9 @@ on:
 jobs:
   build:
     runs-on: self-hosted
-
     steps:
       - name: Create Build Directory
-        run:  mkdir -p /Users/dhanasekarsubramaniam/actions-runner/_work
+        run: mkdir -p /Users/dhanasekarsubramaniam/actions-runner/_work
 
       - name: Checkout code
         uses: actions/checkout@v3
@@ -29,6 +28,18 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r api/requirements.txt
 
+  lint:
+    runs-on: self-hosted
+    needs: build  # Ensure linting runs after the build job
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
       - name: Lint with flake8
         run: |
           pip install flake8  # Ensure flake8 is installed
@@ -36,6 +47,19 @@ jobs:
           flake8 .
         continue-on-error: true  # Fail the pipeline if linting fails
 
+  test:
+    runs-on: self-hosted
+    needs: build  # Ensure tests run after the build job
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
       - name: Run Tests
         run: |
+          pip install -r api/requirements.txt  # Install dependencies if not already installed
           pytest
