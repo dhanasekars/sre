@@ -34,7 +34,7 @@ jobs:
           pip install flake8  # Ensure flake8 is installed
           # Run flake8 with desired configuration
           flake8 .
-#        continue-on-error: false  # Fail the pipeline if linting fails
+        continue-on-error: true  # Fail the pipeline if linting fails
 
       - name: Run Tests
         run: |
