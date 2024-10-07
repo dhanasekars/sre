@@ -11,18 +11,35 @@ services:
       MARIADB_HOST: db
       DATABASE_HOST: db
 
-  app:
+  app1:
     build:
       context: ./api
       dockerfile: Dockerfile
-    container_name: sre-app
+    container_name: sre-app1
     env_file:
       - .env
     environment:
         DATABASE_HOST: db
         ENVIRONMENT: docker
     ports:
-      - "8000:8000"
+      - "8081:8000"
+    image: fastapi
+    depends_on:
+      - db
+    command: [ "sh", "-c", "sleep 5 && alembic upgrade head && uvicorn src.main:app --host 0.0.0.0 --port 8000" ]
+
+  app2:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: sre-app2
+    env_file:
+      - .env
+    environment:
+        DATABASE_HOST: db
+        ENVIRONMENT: docker
+    ports:
+      - "8082:8000"
     image: fastapi
     depends_on:
       - db
@@ -36,4 +53,5 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - app
+      - app1
+      - app2
