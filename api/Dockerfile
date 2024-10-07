@@ -10,8 +10,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the application code and DML alembic
 COPY ./src ./src
 COPY ./alembic /app/alembic
-COPY alembic.ini alembic.ini
-#COPY wait-for-it.sh .
+COPY ./alembic.ini /app/alembic.ini
+COPY ./wait-for-it.sh /app/wait-for-it.sh
 
 # Expose the port the app runs on
 EXPOSE 8000
