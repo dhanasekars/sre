@@ -20,10 +20,11 @@
  - [x] DB runs in a container
 
 3 - Setup one-click local development setup
-   - [x] - DML using Alembic
+   - [x] DML using Alembic
 
 4 - Setup a CI pipeline
-
+   - [x] GitHub actions 
+   - [x] Local runner
 
 ## Later
 
