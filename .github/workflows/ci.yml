@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Create Build Directory
-        run:  mkdir -p /Users/dhanasekarsubramaniam/actions-runner/build
+        run:  mkdir -p ./build
 
       - name: Checkout code
         uses: actions/checkout@v3
