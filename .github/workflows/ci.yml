@@ -90,8 +90,8 @@ jobs:
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v3
         with:
-          context: .
-          file: ./api/Dockerfile  # Path to your Dockerfile
+          context: ./api
+          file: Dockerfile  # Path to your Dockerfile
           push: true
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/fastapi_app:${{ env.VERSION }}
