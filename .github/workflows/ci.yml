@@ -94,4 +94,4 @@ jobs:
           file: ./api/Dockerfile  # Path to your Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/fastapi_app:${{ env.VERSION }}  # Using semantic versioning
+            ${{ secrets.DOCKER_USERNAME }}/fastapi_app:${{ env.VERSION }}
