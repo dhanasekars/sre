@@ -1,0 +1,10 @@
+# Use the previously built image as the base image
+FROM fastapi-app1 AS base
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the Alembic configuration and migration scripts
+COPY ./alembic ./alembic
+COPY ./alembic.ini .
+
