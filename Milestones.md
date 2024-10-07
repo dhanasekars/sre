@@ -6,7 +6,7 @@
    - [ ] Makefile to build and run REST API locally
    - [x] DB Schema migrations to create the student table
    - [x] env to pass db url and other sensitive data
-   - [ ] Postman collections for the APIs
+   - [x] Postman collections for the APIs
 
     #### API Expectations
    - [x] Support API Versioning
@@ -15,7 +15,14 @@
    - [x] /healhcheck endpoint
    - [ ] Unit tests for all endpoints
 
+2 - Containerise REST API
+ - [x] APIs run in a container
+ - [x] DB runs in a container
 
+3 - Setup one-click local development setup
+   - [x] - DML using Alembic
+
+4 - Setup a CI pipeline
 
 
 ## Later

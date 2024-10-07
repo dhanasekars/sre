@@ -1,6 +1,7 @@
-from pydantic import BaseModel,EmailStr
+from pydantic import BaseModel, EmailStr
 from datetime import date
 from typing import Optional
+
 
 # Request schema for creating a student
 class StudentCreate(BaseModel):

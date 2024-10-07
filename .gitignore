@@ -51,3 +51,5 @@ wheels/
 *.egg
 .env
 .DS_Store
+/.env_backup
+/.envnew

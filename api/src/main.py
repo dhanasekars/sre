@@ -10,9 +10,6 @@ from .schemas import StudentCreate, StudentResponse, StudentUpdate
 
 app = FastAPI()
 
-# @app.lifespan()
-# async def lifespan():
-#     await check_and_create_tables()
 
 @app.get("/v1/healthcheck")
 async def healthcheck():
@@ -23,14 +20,18 @@ async def healthcheck():
 async def get_students(
     db: AsyncSession = Depends(get_db),
     limit: int = Query(10),  # Default limit is 10, must be >= 1
-    offset: int = Query(0),   # Default offset is 0, must be >= 0
+    offset: int = Query(0),  # Default offset is 0, must be >= 0
 ):
     # Validate the limit
     if limit < 1:
-        raise HTTPException(status_code=400, detail="Limit must be greater than or equal to 1")
+        raise HTTPException(
+            status_code=400, detail="Limit must be greater than or equal to 1"
+        )
     # Validate the offset
     if offset < 0:
-        raise HTTPException(status_code=400, detail="Offset must be greater than or equal to 0")
+        raise HTTPException(
+            status_code=400, detail="Offset must be greater than or equal to 0"
+        )
 
     try:
         # Build the base query
@@ -43,7 +44,10 @@ async def get_students(
         return students
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error retrieving students: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Error retrieving students: {str(e)}"
+        )
+
 
 @app.post("/v1/students", response_model=StudentResponse)
 async def create_student(student: StudentCreate, db: AsyncSession = Depends(get_db)):
@@ -52,7 +56,7 @@ async def create_student(student: StudentCreate, db: AsyncSession = Depends(get_
             first_name=student.first_name,
             last_name=student.last_name,
             email=student.email,
-            date_of_birth=student.date_of_birth
+            date_of_birth=student.date_of_birth,
         )
         db.add(new_student)
         await db.commit()  # Commit the transaction
@@ -70,18 +74,22 @@ async def get_student(student_id: int, db: AsyncSession = Depends(get_db)):
         student = result.scalar_one_or_none()  # Returns None if no student found
 
         if student is None:
-            raise HTTPException(status_code=404, detail=f"Student with ID {student_id} not found")
+            raise HTTPException(
+                status_code=404, detail=f"Student with ID {student_id} not found"
+            )
 
         return student
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error retrieving student: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Error retrieving student: {str(e)}"
+        )
 
 
 @app.put("/v1/students/{student_id}", response_model=StudentResponse)
 async def update_student(
-        student_id: int,
-        student_update: StudentUpdate,
-        db: AsyncSession = Depends(get_db),
+    student_id: int,
+    student_update: StudentUpdate,
+    db: AsyncSession = Depends(get_db),
 ):
     # Check if the student exists
     student = await db.get(Student, student_id)
@@ -90,7 +98,9 @@ async def update_student(
 
     # Check if the new email is unique
     if student_update.email:
-        email_exists_query = select(Student).filter(Student.email == student_update.email)
+        email_exists_query = select(Student).filter(
+            Student.email == student_update.email
+        )
         email_exists_result = await db.execute(email_exists_query)
         existing_student = email_exists_result.scalars().first()
 
@@ -105,7 +115,7 @@ async def update_student(
             first_name=student_update.first_name,
             last_name=student_update.last_name,
             email=student_update.email,
-            date_of_birth=student_update.date_of_birth
+            date_of_birth=student_update.date_of_birth,
         )
     )
 
@@ -128,16 +138,14 @@ async def delete_student(student_id: int, db: AsyncSession = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Student not found")
 
     # Store the student's details to return them later
-    student_data = {
-        "id": student.id,
-        "first_name": student.first_name
-    }
+    student_data = {"id": student.id, "first_name": student.first_name}
 
     # Delete the student
     await db.delete(student)
     await db.commit()
 
     return {"detail": "Student deleted successfully", "student": student_data}
+
 
 if __name__ == "__main__":
     import uvicorn
