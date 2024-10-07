@@ -69,3 +69,29 @@ jobs:
         run: |
           pip install -r api/requirements.txt  # Install dependencies if not already installed
           pytest
+
+  docker:
+    runs-on: self-hosted
+    needs: [build, lint, test]  # Ensure Docker job runs after build, lint, and test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Docker Login
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}  # Set in repository secrets
+          password: ${{ secrets.DOCKER_PASSWORD }}  # Set in repository secrets
+
+      - name: Determine Version Tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV  # This sets the version to the Git tag
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./api/Dockerfile  # Path to your Dockerfile
+          push: true
+          tags: |
+            secrets.DOCKER_USERNAME/fastapi_app:${{ env.VERSION }}  # Using semantic versioning
