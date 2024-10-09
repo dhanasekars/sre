@@ -22,8 +22,20 @@ The following tools/tech stacks are to be installed
 
 
 
+## Setup 
 
-
+1. Clone repo
+2. Create .env file in the root
+```shell
+    ENVIRONMENT=local
+    DATABASE_USER=
+    DATABASE_PASSWORD=
+    DATABASE_LOCAL_HOST=localhost:3306
+    DATABASE_NAME=
+    DATABASE_ROOT_USER_PWD=
+```
+3. run docker-compose
+4. 
 
 
 
