@@ -7,4 +7,3 @@ WORKDIR /app
 # Copy the Alembic configuration and migration scripts
 COPY ./alembic ./alembic
 COPY ./alembic.ini .
-
