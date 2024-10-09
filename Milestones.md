@@ -21,6 +21,7 @@
 
 3 - Setup one-click local development setup
 - [x] DML using Alembic
+- [x] Make file for automated local installation
 
 4 - Setup a CI pipeline
 - [x] GitHub actions 
@@ -29,8 +30,14 @@
 5 - Deploy REST API & its dependent services on bare metal
 - [x] Ngnix as reverse proxy
 - [x] Ngnix as load balancer
-- [ ] Use Vagrant as a bare metal box
+- [x] Use Vagrant as a bare metal box - NA ( instead used Virtualbox VM directly)
+
+6 - Setup Kubernetes cluster
+- [x] Three node Kubernetes cluster using Minikube should be spun up.
+
+
 
 ## Later
 
 - [ ] Redis cache
+

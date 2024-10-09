@@ -18,26 +18,32 @@ The following tools/tech stacks are to be installed
 - API - Contains FastAPI endpoint and all it dependencies in requirements.txt and Docker file 
 - ngnix - acts a reverse proxy and load balancer for FastAPI app.
 - tests - unit and integration tests for all endpoints and functions
-- Look at Makefile for one click local deployment
 
 
 
-## Setup 
+## Local setup
 
-1. Clone repo
-2. Create .env file in the root
-```shell
-    ENVIRONMENT=local
-    DATABASE_USER=
-    DATABASE_PASSWORD=
-    DATABASE_LOCAL_HOST=localhost:3306
-    DATABASE_NAME=
-    DATABASE_ROOT_USER_PWD=
-```
-3. run docker-compose
-4. 
+### Pre-req 
+   1. Docker
+   2. Docker Compose
+   3. Make
 
+### Steps
+   1. Clone repo
+   2. Create .env file in the root
+       ```shell
+           ENVIRONMENT=local
+           DATABASE_USER=
+           DATABASE_PASSWORD=
+           DATABASE_LOCAL_HOST=localhost:3306
+           DATABASE_NAME=
+           DATABASE_ROOT_USER_PWD=
+       ```
+   3. run api/Dockerfile first
+   4. run docker-compose from root
 
+### Easier way 
 
-
-
+   ```shell
+   make help
+   ```
