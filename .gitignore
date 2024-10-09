@@ -54,3 +54,4 @@ wheels/
 /.env_backup
 /.envnew
 /.vagrant/
+/ubuntu-bionic-18.04-cloudimg-console.log

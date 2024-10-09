@@ -14,7 +14,7 @@ The following tools/tech stacks are to be installed
 5. Python 
 
 ## Project Structure
-- 
+
 - API - Contains FastAPI endpoint and all it dependencies in requirements.txt and Docker file 
 - ngnix - acts a reverse proxy and load balancer for FastAPI app.
 - tests - unit and integration tests for all endpoints and functions

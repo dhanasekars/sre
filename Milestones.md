@@ -28,7 +28,7 @@
 
 5 - Deploy REST API & its dependent services on bare metal
 - [x] Ngnix as reverse proxy
-- [ ] Ngnix as load balancer
+- [x] Ngnix as load balancer
 - [ ] Use Vagrant as a bare metal box
 
 ## Later
