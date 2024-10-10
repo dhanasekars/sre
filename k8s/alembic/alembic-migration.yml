@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sre-migration
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sre-migration
+  template:
+    metadata:
+      labels:
+        app: sre-migration
+    spec:
+      containers:
+        - name: alembic
+          image: fastapi-app:latest  # Use the same image as your FastAPI app with Alembic installed
+          env:
+            - name: DATABASE_HOST
+              value: db
+            - name: ENVIRONMENT
+              value: docker
+          command: ["sh", "-c", "sleep 5 && alembic upgrade head"]
