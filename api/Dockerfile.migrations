@@ -1,5 +1,5 @@
 # Use the previously built image as the base image
-FROM fastapi-app1 AS base
+FROM dhanasekars/fastapi_app:main AS base
 
 # Set the working directory
 WORKDIR /app
