@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: sre-nginx
 spec:
-  replicas: 1  # Adjust the number of replicas as needed
+  replicas: 1
   selector:
     matchLabels:
       app: sre-nginx
@@ -12,6 +12,8 @@ spec:
       labels:
         app: sre-nginx
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: minikube-m02
       containers:
         - name: nginx
           image: dhanasekars/nginx_app:main
