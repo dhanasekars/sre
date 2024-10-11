@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sre-fastapi-app
+  labels:
+    app: sre-fastapi-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sre-fastapi-app
+  template:
+    metadata:
+      labels:
+        app: sre-fastapi-app
+    spec:
+      containers:
+      - name: fastapi-app
+        image: dhanasekars/fastapi_app:main
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+        env:
+        - name: ENVIRONMENT
+          value: "docker"  # Change this based on your environment
+        - name: DATABASE_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: DATABASE_USER
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: DATABASE_PASSWORD
+        - name: DATABASE_HOST
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: DATABASE_HOST
+        - name: DATABASE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: DATABASE_NAME
+        - name: DATABASE_ROOT_USER_PWD
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: DATABASE_ROOT_USER_PWD
+        command: [ "sh", "-c", "uvicorn src.main:app --host 0.0.0.0 --port 8000" ]

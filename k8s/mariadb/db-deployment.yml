@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sre-mariadb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sre-mariadb
+  template:
+    metadata:
+      labels:
+        app: sre-mariadb
+    spec:
+      containers:
+        - name: mariadb
+          image: mariadb:latest
+          env:
+            - name: MARIADB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: database-secrets
+                  key: root_password
+            - name: MARIADB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: database-secrets
+                  key: database_name
+            - name: MARIADB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: database-secrets
+                  key: database_user
+            - name: MARIADB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: database-secrets
+                  key: database_password
+          ports:
+            - containerPort: 3306  # MariaDB default port
+
+      volumes:
+        - name: mariadb-persistent-storage
+          persistentVolumeClaim:
+            claimName: mariadb-pv-claim

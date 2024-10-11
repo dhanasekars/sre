@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sre-fastapi-app
+spec:
+  type: ClusterIP  # Change to LoadBalancer if you're using a cloud provider
+  selector:
+    app: sre-fastapi-app
+  ports:
+    - port: 8000  # This is the port exposed by the service
+      targetPort: 8000  # This is the port your container is listening on
