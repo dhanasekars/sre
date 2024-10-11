@@ -1,23 +1,45 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
-  name: sre-migration
+  name: sre-alembic-migration
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: sre-migration
   template:
-    metadata:
-      labels:
-        app: sre-migration
     spec:
       containers:
-        - name: alembic
-          image: fastapi-app:latest  # Use the same image as your FastAPI app with Alembic installed
-          env:
-            - name: DATABASE_HOST
-              value: db
-            - name: ENVIRONMENT
-              value: docker
-          command: ["sh", "-c", "sleep 5 && alembic upgrade head"]
+      - name: alembic
+        image: dhanasekars/alembic-migrations:main
+        env:
+        - name: DATABASE_HOST
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: DATABASE_HOST
+        - name: DATABASE_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: DATABASE_USER
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: DATABASE_PASSWORD
+        - name: DATABASE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: DATABASE_NAME
+        command: ["sh", "-c", "sleep 5 && alembic upgrade head"]
+      restartPolicy: OnFailure
+      initContainers:
+            - name: wait-for-mariadb
+              image: busybox
+              command: ['sh', '-c', 'until nc -z $(DATABASE_HOST) 3306; do echo "Waiting for MariaDB..."; sleep 5; done;']
+              env:
+              - name: DATABASE_HOST
+                valueFrom:
+                  secretKeyRef:
+                    name: db-secrets
+                    key: DATABASE_HOST
+
+  backoffLimit: 3
