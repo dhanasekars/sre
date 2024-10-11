@@ -73,6 +73,7 @@ jobs:
   docker:
     runs-on: self-hosted
     needs: [build, lint, test]  # Ensure Docker job runs after build, lint, and test
+    if: github.ref == 'refs/heads/main'  # Only push on main
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -88,7 +89,6 @@ jobs:
         run: echo "VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV  # This sets the version to the Git tag
 
       - name: Build and Push API Docker Image
-        if: github.ref == 'refs/heads/main'  # Only push on main
         uses: docker/build-push-action@v3
         with:
           context: ./api
@@ -98,21 +98,19 @@ jobs:
             ${{ secrets.DOCKER_USERNAME }}/fastapi_app:${{ env.VERSION }}
 
       - name: Build and Push Nginx Docker Image
-        if: github.ref == 'refs/heads/main'  # Only push on main
         uses: docker/build-push-action@v3
         with:
           context: ./nginx  # Nginx build context
-          file: ./nginx/Dockerfile  # Path to your custom Nginx Dockerfile
+          file: ./nginx/Dockerfile  # Path to custom Nginx Dockerfile
           push: true
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/nginx_app:${{ env.VERSION }}
 
-      - name: Build and Push Alembic Mibration Docker Image
-        if: github.ref == 'refs/heads/main'  # Only push on main
+      - name: Build and Push Alembic Migration Docker Image
         uses: docker/build-push-action@v3
         with:
           context: ./api  # Nginx build context
-          file: ./api/Dockerfile.migrations  # Path to your custom migrations Dockerfile
+          file: ./api/Dockerfile.migrations  # Path to alembic custom migrations Dockerfile
           push: true
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/nginx_app:${{ env.VERSION }}
