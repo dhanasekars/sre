@@ -5,9 +5,11 @@ metadata:
 spec:
   template:
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: minikube-m02
       containers:
       - name: alembic
-        image: dhanasekars/alembic-migrations:main
+        image: dhanasekars/alembic_migrations:main
         env:
         - name: DATABASE_HOST
           valueFrom:

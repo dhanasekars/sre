@@ -12,6 +12,8 @@ spec:
       labels:
         app: sre-mariadb
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: minikube-m03
       containers:
         - name: mariadb
           image: mariadb:latest
@@ -19,23 +21,23 @@ spec:
             - name: MARIADB_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: database-secrets
-                  key: root_password
+                  name: db-secrets
+                  key: DATABASE_ROOT_USER_PWD
             - name: MARIADB_DATABASE
               valueFrom:
                 secretKeyRef:
-                  name: database-secrets
-                  key: database_name
+                  name: db-secrets
+                  key: DATABASE_NAME
             - name: MARIADB_USER
               valueFrom:
                 secretKeyRef:
-                  name: database-secrets
-                  key: database_user
+                  name: db-secrets
+                  key: DATABASE_USER
             - name: MARIADB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: database-secrets
-                  key: database_password
+                  name: db-secrets
+                  key: DATABASE_PASSWORD
           ports:
             - containerPort: 3306  # MariaDB default port
 
