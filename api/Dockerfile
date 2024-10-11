@@ -1,7 +1,9 @@
 FROM python:3.11-slim
 
 # Install curl or wget
-RUN apt-get update && apt-get install -y curl
+RUN apt-get update && \
+    apt-get install -y curl nano && \
+    rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
 WORKDIR /app
