@@ -25,7 +25,7 @@ jobs:
           
       - name: Test SSH Connection
         run: |
-          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no -p 22 "${{ secrets.SSH_USERNAME }}"@"${{ secrets.SSH_IP }}" "echo Connected!"
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no -p 22 "${{ secrets.VM_USER }}"@"${{ secrets.VM_IP }}" "echo Connected!"
           
       # - name: Deploy Secrets and pvc
       #   run: |
