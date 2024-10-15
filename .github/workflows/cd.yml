@@ -19,7 +19,11 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
+          
+      - name: Test SSH Connection
+        run: |
+          ssh -v fastapi_user@192.168.0.110 "echo Connected!"
+          
       - name: Deploy Secrets and pvc
         run: |
           ssh fastapi_user@192.168.0.110 "kubectl apply -f /k8s/secrets/db-secrets.yml"
