@@ -25,7 +25,7 @@ jobs:
           
       - name: Test SSH Connection
         run: |
-          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no -p 22 fastapi_user@192.168.0.110 "echo Connected!"
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no -p 22 fastapi_user@192.168.49.1 "echo Connected!"
       
       - name: Debugging with tmate
         uses: mxschmitt/action-tmate@v3.19    
