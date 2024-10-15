@@ -15,35 +15,39 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      # - name: Set up SSH
+      #   uses: webfactory/ssh-agent@v0.9.0
+      #   with:
+      #     ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Install sshpass
+        run: sudo apt-get install -y sshpass
           
       - name: Test SSH Connection
         run: |
-          ssh -v fastapi_user@192.168.0.110 "echo Connected!"
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no fastapi_user@192.168.0.110 "echo Connected!"
+
           
-      - name: Deploy Secrets and pvc
-        run: |
-          ssh fastapi_user@192.168.0.110 "kubectl apply -f /k8s/secrets/db-secrets.yml"
-          ssh fastapi_user@192.168.0.110 "kubectl apply -f /path/to/k8s/mariadb/db-pv-claim"
+      # - name: Deploy Secrets and pvc
+      #   run: |
+      #     ssh fastapi_user@192.168.0.110 "kubectl apply -f /k8s/secrets/db-secrets.yml"
+      #     ssh fastapi_user@192.168.0.110 "kubectl apply -f /path/to/k8s/mariadb/db-pv-claim"
       
-      - name: Deploy MariaDB
-        run: |
-          ssh fastapi_user@192.168.0.110 "kubectl apply -f /k8s/mariadb/db-deployment.yml"
-          ssh fastapi_user@192.168.0.110 "kubectl apply -f /k8s/mariadb/db-service.yml"
+      # - name: Deploy MariaDB
+      #   run: |
+      #     ssh fastapi_user@192.168.0.110 "kubectl apply -f /k8s/mariadb/db-deployment.yml"
+      #     ssh fastapi_user@192.168.0.110 "kubectl apply -f /k8s/mariadb/db-service.yml"
 
-      - name: Deploy FastAPI App
-        run: |
-          ssh fastapi_user@192.168.0.110 "kubectl apply -f /k8s/api/fastapi-app-deployment.yml"
-          ssh fastapi_user@192.168.0.110 "kubectl apply -f /k8s/api/fastapi-app-service.yml"
+      # - name: Deploy FastAPI App
+      #   run: |
+      #     ssh fastapi_user@192.168.0.110 "kubectl apply -f /k8s/api/fastapi-app-deployment.yml"
+      #     ssh fastapi_user@192.168.0.110 "kubectl apply -f /k8s/api/fastapi-app-service.yml"
 
-      - name: Deploy Alembic Migrations
-        run: |
-          ssh fastapi_user@192.168.0.110 "kubectl apply -f /k8s/alembic/alembic-migration.yml"
+      # - name: Deploy Alembic Migrations
+      #   run: |
+      #     ssh fastapi_user@192.168.0.110 "kubectl apply -f /k8s/alembic/alembic-migration.yml"
 
-      - name: Deploy Ngnix
-        run: |
-          ssh fastapi_user@192.168.0.110 "kubectl apply -f /k8s/nginx/ngnix-deployment.yml"
-          ssh fastapi_user@192.168.0.110 "kubectl apply -f /k8s/nginx/ngnix-service.yml"
+      # - name: Deploy Ngnix
+      #   run: |
+      #     ssh fastapi_user@192.168.0.110 "kubectl apply -f /k8s/nginx/ngnix-deployment.yml"
+      #     ssh fastapi_user@192.168.0.110 "kubectl apply -f /k8s/nginx/ngnix-service.yml"
