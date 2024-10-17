@@ -1,34 +1,35 @@
 name: CD Pipeline
 
+# on:
+#   workflow_run:
+#     workflows: ["CI Pipeline"]  
+#     types:
+#       - completed  # Trigger deployment when CI is complete and successful
+#   workflow_dispatch:
+ 
+
 on:
-  workflow_run:
-    workflows: ["CI Pipeline"]  
-    types:
-      - completed  # Trigger deployment when CI is complete and successful
-  workflow_dispatch:
-  
+  workflow_dispatch:  # Allows manual triggering of the workflow
+
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-            
+  ssh-test:
+    runs-on: macos-latest # GitHub-hosted Linux runner
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # - name: Set up SSH
-      #   uses: webfactory/ssh-agent@v0.9.0
-      #   with:
-      #     ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      # Set up SSH connection to your Mac using the SSH key stored in GitHub Secrets
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.8.1
+        with:
+          ssh-private-key: ${{ secrets.SSH_MAC_KEY }}  # Use SSH_MAC_KEY here
 
-      - name: Install sshpass
-        run: sudo apt-get install -y sshpass
-          
-      - name: Test SSH Connection
+      # Test SSH connection to your Mac
+      - name: Test SSH connection
         run: |
-          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no -p 22 fastapi_user@192.168.49.1 "echo Connected!"
-      
-      - name: Debugging with tmate
-        uses: mxschmitt/action-tmate@v3.19    
+          ssh -o StrictHostKeyChecking=no dhanasekarsubramaniam@192.168.0.146 "echo 'SSH connection successful!'"
+
       # - name: Deploy Secrets and pvc
       #   run: |
       #     ssh fastapi_user@192.168.0.110 "kubectl apply -f /k8s/secrets/db-secrets.yml"
